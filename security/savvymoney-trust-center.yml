@@ -1,0 +1,45 @@
+generated: '2026-08-26'
+method: searched
+source: https://trust.savvymoney.com/
+url: https://trust.savvymoney.com/
+name: SavvyMoney Trust & Compliance Center
+note: >-
+  trust.savvymoney.com is served behind a Cloudflare interstitial and answers 403 "Just a
+  moment..." to a plain curl with a browser User-Agent; the page itself is public and was read
+  successfully through a rendering fetch. The 403 is an edge bot policy, not a dead page.
+http_status: 403
+http_status_note: 403 Cloudflare managed challenge to a non-browser client; content read via rendered fetch on 2026-08-26.
+certifications:
+- name: SOC 2 Type 2
+  kind: attestation
+- name: CSA STAR Level 1
+  kind: self-assessment
+- name: CSA STAR Level 2
+  kind: third-party-attestation
+- name: CSA Trusted Cloud Provider
+  kind: program-membership
+- name: TRUSTe
+  kind: privacy-certification
+regulatory_frameworks:
+- name: GLBA
+  note: Gramm-Leach-Bliley Act — SavvyMoney serves banks and credit unions and handles consumer credit data.
+- name: NIST CSF
+  note: Cited as the security framework the program is mapped to.
+- name: CCPA
+- name: CPRA
+not_claimed:
+- ISO 27001
+- PCI DSS
+- HIPAA
+- FedRAMP
+subprocessors:
+- Sharetru
+- Salesforce
+- Okta
+- TransUnion
+- Amazon
+security_contact: security@savvymoney.com
+evidence:
+- url: https://trust.savvymoney.com/
+  status: 403
+  note: Cloudflare challenge to curl; page content read via rendered fetch, listing the certifications above.

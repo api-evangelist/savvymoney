@@ -1,0 +1,140 @@
+generated: '2026-08-26'
+method: searched
+source: https://hub.savvymoney.com/sphub/cms/delivery/media/MCTB4AZJKJRJBWFAXB4W2WLUCAPQ
+docs: https://hub.savvymoney.com/sphub/cms/delivery/media/MCTB4AZJKJRJBWFAXB4W2WLUCAPQ
+note: >-
+  Derived from SavvyMoney's own publicly downloadable "SSO Integration Using SavvyMoney REST API"
+  guide (v2.1, 8 Aug 2022) and the "Mobile Integration Guide" (v1.8, 17 Sep 2019), both served
+  from hub.savvymoney.com without authentication. No OpenAPI securitySchemes block exists —
+  SavvyMoney publishes no machine-readable contract — so every field below is quoted from those
+  documents or observed on a live unauthenticated probe.
+schemes:
+- id: savvymoney-sso-jwt
+  applies_to: SavvyMoney SSO REST API + External Credit API
+  type: custom
+  family: jwt-bearer
+  in: header
+  header: Authorization
+  description: >-
+    Partner-scoped JWT flow. SavvyMoney issues each partner application an Authentication ID
+    (Auth ID, the client identifier) and an Authentication Key (Auth Key, in JWT format). The
+    partner server POSTs those credentials plus the member attributes to the SSO Authentication
+    API and receives a short-lived authorization code in JWT format. The code is exchanged at the
+    sign-on endpoint for an access token, which is then sent to the Credit API in an HTTP
+    Authorization header.
+  credentials:
+  - name: authId
+    description: Client identifier issued by SavvyMoney.
+  - name: authKey
+    description: Authentication key in JWT format.
+  - name: Audience Domains
+    description: The SavvyMoney domains or partner credit-score subdomains an API user is scoped to.
+  - name: Partner ID List
+    description: The partner IDs an API user is authorised to perform SSO for.
+  - name: AES/CBC Encryption Key
+    description: Symmetric key used to encrypt member attributes in transit inside the request body.
+  token:
+    format: JWT
+    lifetime_seconds: 600
+    lifetime_note: '"the access token will automatically expire in 10 minutes"'
+    renewable: true
+    renew_operation: SSO Prolong API
+    revocable: true
+    revoke_operation: SSO Log Off API
+  binding:
+    browser_fingerprint: >-
+      Optional. The partner may obtain a browser "Fingerprint" from the SSO server and pass it on
+      sign-on to restrict use of the access token to that same browser.
+    audience_restriction: >-
+      "Access tokens are restricted to access the set of partners from the set of audience domains
+      described in the SSO client credentials."
+- id: savvymoney-saml2
+  applies_to: Partner online/mobile banking SSO (alternative to the REST flow)
+  type: saml2
+  description: >-
+    SavvyMoney documents SAML 2.0 as an alternative to the REST API for establishing single
+    sign-on from a partner's online or mobile banking platform.
+  source: https://hub.savvymoney.com/sphub/cms/delivery/media/MCS7KWMTKCWNE7VNGJI5TFUISKCY
+- id: savvymoney-hub-oidc
+  applies_to: SavvyMoney Partner Hub (hub.savvymoney.com) — NOT the credit API
+  type: openIdConnect
+  openid_configuration: https://hub.savvymoney.com/.well-known/openid-configuration
+  issuer: https://hub.savvymoney.com
+  authorization_endpoint: https://hub.savvymoney.com/services/oauth2/authorize
+  token_endpoint: https://hub.savvymoney.com/services/oauth2/token
+  userinfo_endpoint: https://hub.savvymoney.com/services/oauth2/userinfo
+  revocation_endpoint: https://hub.savvymoney.com/services/oauth2/revoke
+  introspection_endpoint: https://hub.savvymoney.com/services/oauth2/introspect
+  registration_endpoint: https://hub.savvymoney.com/services/oauth2/register
+  jwks_uri: https://hub.savvymoney.com/id/keys
+  id_token_signing_alg_values_supported: [RS256]
+  dpop_supported: true
+  token_endpoint_auth_methods_supported:
+  - client_secret_post
+  - client_secret_basic
+  - private_key_jwt
+  note: >-
+    Served under SavvyMoney's own issuer but emitted by the Salesforce Experience Cloud platform
+    hosting the Partner Hub — the advertised scopes are Salesforce-native. This governs partner
+    hub sign-in, not the credit/SSO REST API.
+endpoints_documented:
+- operation: SSO Authentication API
+  method: POST
+  path_note: >-
+    Path not stated in the public guide; only the request/response JSON models are shown. Recorded
+    as documented-but-unnamed rather than guessed.
+- operation: SSO Fingerprint API
+  method: GET
+  path_note: Optional, called from the browser. Path not stated in the public guide.
+- operation: SSO Sign On API
+  method: POST
+  path: /sso/api/rest/signon
+  example: 'curl -X POST "https://creditscoretest.savvymoney.com/sso/api/rest/signon"'
+- operation: SSO Prolong API
+  method: POST
+  path: /sso/api/rest/prolong
+  example: 'curl -X POST "https://creditscoretest.savvymoney.com/sso/api/rest/prolong"'
+- operation: SSO Log Off API
+  method: POST
+  path: /sso/api/rest/logoff
+  example: 'curl -X POST "https://creditscoretest.savvymoney.com/sso/api/rest/logoff"'
+- operation: SSO Relay Form POST (iFrame)
+  method: POST
+  path: /sso/api/RelayPost
+  note: HTML form POST carrying AuthCode + AuthAppUrl, targeted at an iFrame.
+- operation: SSO Redirect API
+  method: POST
+  path_note: Path not stated; request model is {authCode, appUrl} and the response carries redirectUrl.
+transport_security:
+  tls_minimum: TLSv1.2
+  tls_note: '"SavvyMoney supports only TLS 1.2 SSL." Observed live negotiation on creditscore.savvymoney.com is TLSv1.3.'
+  disabled_ciphers:
+  - TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (0xc030)
+  - TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (0xc02f)
+  - TLS_DHE_RSA_WITH_AES_256_GCM_SHA384 (0x9f)
+  - TLS_DHE_RSA_WITH_AES_128_GCM_SHA256 (0x9e)
+  ip_allowlisting:
+    required_of_partner: true
+    note: >-
+      Partners must allowlist SavvyMoney's static egress IPs. Production 3.227.227.11 and
+      3.222.59.58; beta 18.210.174.44 and 75.101.165.109. SavvyMoney states it does not require
+      the partner's servers to be allowlisted in return.
+attribute_encryption:
+  algorithm: AES/CBC
+  applies_to: SSO member attributes (partnerMemberId, firstName, lastName, email, address, city, state, zip, dob, ssn, supplemental1-3)
+  flag: 'Each attribute carries an "encrypted": true|false boolean in the request body.'
+  guide: Attribute Encryption Guide (referenced by the SSO guide; not published publicly)
+gaps:
+- No OpenAPI/Swagger document is published, so no securitySchemes block can be harvested.
+- The full endpoint reference ("SavvyMoney API Document") is partner-gated; three of the six documented SSO operations have no public path.
+- No rotation, expiry or revocation policy is published for the long-lived Auth ID / Auth Key credential pair.
+evidence:
+- url: https://hub.savvymoney.com/sphub/cms/delivery/media/MCTB4AZJKJRJBWFAXB4W2WLUCAPQ
+  status: 200
+  content_type: application/pdf
+- url: https://hub.savvymoney.com/.well-known/openid-configuration
+  status: 200
+  content_type: application/json
+- url: https://creditscore.savvymoney.com/sso/api/rest/signon
+  status: 200
+  note: 'Unauthenticated POST {} returned {"errorMessage":"Missing authCode.","hasErrors":true} — endpoint confirmed live.'

@@ -1,0 +1,82 @@
+generated: '2026-08-26'
+method: searched
+source: https://status.savvymoney.com/ + SavvyMoney public integration guides
+status_page:
+  present: true
+  url: https://status.savvymoney.com/
+  provider: Atlassian Statuspage
+  page_id: scvvwpjssk2y
+  machine_readable: true
+  api:
+    summary: https://status.savvymoney.com/api/v2/summary.json
+    status: https://status.savvymoney.com/api/v2/status.json
+    format: Statuspage v2 JSON
+  observed:
+    at: '2026-08-26'
+    indicator: none
+    description: All Systems Operational
+    open_incidents: 0
+    scheduled_maintenances: 0
+  components:
+  - API Core Service
+  - Analytics
+  - Credit Service
+  - Offers Engine
+  - SSO Service - Auth
+  - SSO Service - Web
+  - SFTP Pipeline
+  - CMS Core Services
+  - CMS Builder Services
+  - Partner Hub
+  - SavvyMoney Website
+  - SavvyMoney Education Site
+  - AWS - East Coast Region
+  - AWS - West Coast Region
+  - Lending Digital Journey
+  - Deposits Digital Journey
+  - Lending and Deposits Backoffice/Admin System
+  - Lending & Deposits - API Service
+  - Lending & Deposits - Site to Site VPN
+  - Partners - Banno
+  components_note: >-
+    The component list is itself a useful disclosure — SavvyMoney separates SSO Service - Auth from
+    SSO Service - Web and names a distinct "Lending & Deposits - API Service", confirming at least
+    two API surfaces beyond the credit API this profile documents.
+versioning:
+  policy_published: false
+  scheme: none-in-path
+  note: >-
+    Documented endpoints carry no version segment. Versioning is visible only as revision histories
+    on the partner integration documents.
+deprecation:
+  policy_published: false
+  sunset_header: false
+  deprecation_header: false
+  rfc8594: false
+  note: >-
+    No deprecation policy, no Sunset or Deprecation response headers, and no announced end-of-life
+    process were found on any SavvyMoney host or in the public integration guides. No `Deprecation`
+    pointer is emitted, because none is published.
+sla:
+  published: false
+  note: >-
+    No public SLA or uptime commitment. The Statuspage carries live status but no historical uptime
+    percentage or credit terms are published outside a partner agreement.
+support:
+  channels:
+  - type: sales/demo
+    url: https://www.savvymoney.com/book-a-demo/
+  - type: partner-hub
+    url: https://hub.savvymoney.com
+    note: Gated — returns 401 to an unauthenticated client on most paths.
+  - type: security
+    email: security@savvymoney.com
+document_revisions:
+  see: changelog/savvymoney-changelog.yml
+evidence:
+- url: https://status.savvymoney.com/
+  status: 200
+- url: https://status.savvymoney.com/api/v2/summary.json
+  status: 200
+- url: https://status.savvymoney.com/api/v2/status.json
+  status: 200

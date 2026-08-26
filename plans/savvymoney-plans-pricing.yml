@@ -1,0 +1,26 @@
+generated: '2026-08-26'
+method: searched
+source: https://www.savvymoney.com/
+plan_count: 0
+pricing_model: enterprise-contact-only
+currency: null
+plans: []
+finding: >-
+  SavvyMoney publishes no pricing page, no plan tiers, no per-call rate card and no free tier.
+  /pricing/ returns 404 and no pricing link appears in the site navigation, the llms.txt page index
+  or the sitemap. The only commercial call to action anywhere on the site is "Book a Demo". This is
+  consistent with the business model — SavvyMoney sells an enterprise contract to a bank or credit
+  union, and the end consumer never pays — but it means a buyer cannot size a deal without a sales
+  conversation, and an agent cannot price the API at all.
+sign_up:
+  self_serve: false
+  url: https://www.savvymoney.com/book-a-demo/
+  note: Demo request form; no self-serve signup, no trial, no developer account.
+evidence:
+- url: https://www.savvymoney.com/pricing/
+  status: 404
+- url: https://www.savvymoney.com/book-a-demo/
+  status: 200
+- url: https://www.savvymoney.com/llms.txt
+  status: 200
+  note: Provider-published page index; contains no pricing page.

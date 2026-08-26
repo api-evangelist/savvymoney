@@ -1,0 +1,103 @@
+generated: '2026-08-26'
+method: searched
+source: https://hub.savvymoney.com/sphub/cms/delivery/media/MCTB4AZJKJRJBWFAXB4W2WLUCAPQ
+scheme: document-revision-history
+scheme_note: >-
+  SavvyMoney publishes no product changelog, release-notes feed or dated "what's new" page for its
+  API. What it does publish, on the public partner-hub CDN, is a dated revision history on the front
+  of each integration guide, and those rows describe real API changes (endpoints added, endpoint
+  domains changed, security requirements tightened). This artifact records that revision history
+  verbatim and is explicitly NOT a release feed — there is no machine-readable changelog to
+  subscribe to, and the most recent recorded change is from 2022.
+current_version:
+  document: SSO Integration Using SavvyMoney REST API
+  version: '2.1'
+  date: '2022-08-08'
+staleness_finding: >-
+  The newest dated API change SavvyMoney publishes anywhere is 8 Aug 2022, four years before this
+  probe. That is a documentation-currency gap, not necessarily an API-currency gap — the endpoints
+  it describes were confirmed live on 2026-08-26.
+entries:
+- document: SSO Integration Using SavvyMoney REST API
+  version: '2.1'
+  date: '2022-08-08'
+  breaking: false
+  additions: true
+  highlights: Added SSO application endpoints.
+- document: SSO Integration Using SavvyMoney REST API
+  version: '2.0'
+  date: '2022-07-14'
+  breaking: false
+  additions: false
+  highlights: Updated supplemental attribute examples.
+- document: SSO Integration Using SavvyMoney REST API
+  version: '1.9'
+  date: '2021-01-20'
+  breaking: false
+  additions: true
+  highlights: Added information about attribute encryption (AES/CBC).
+- document: SSO Integration Using SavvyMoney REST API
+  version: '1.8'
+  date: '2020-10-12'
+  breaking: false
+  additions: false
+  highlights: Additional static IP address for production after an infrastructure change.
+- document: SSO Integration Using SavvyMoney REST API
+  version: '1.7'
+  date: '2020-07-24'
+  breaking: true
+  additions: false
+  highlights: Security section updated with TLS cipher information — four weak cipher suites disabled on beta and production.
+- document: SSO Integration Using SavvyMoney REST API
+  version: '1.6'
+  date: '2020-06-19'
+  breaking: true
+  additions: false
+  highlights: Endpoints updated with static domain.
+- document: SSO Integration Using SavvyMoney REST API
+  version: '1.5'
+  date: '2019-11-12'
+  breaking: false
+  additions: true
+  highlights: Added API Server Connection section.
+- document: SSO Integration Using SavvyMoney REST API
+  version: '1.4'
+  date: '2019-08-13'
+  breaking: false
+  additions: false
+  highlights: Updated SSO user attribute information.
+- document: SSO Integration Using SavvyMoney REST API
+  version: '1.0'
+  date: '2018-08-10'
+  breaking: false
+  additions: true
+  highlights: Initial publication.
+- document: SavvyMoney Mobile Integration Guide
+  version: '1.8'
+  date: '2019-09-17'
+  breaking: true
+  additions: false
+  highlights: Removed relay state URL requirement.
+- document: SavvyMoney Mobile Integration Guide
+  version: '1.7'
+  date: '2018-04-03'
+  breaking: false
+  additions: false
+  highlights: Updated description of external API.
+- document: SavvyMoney Mobile Integration Guide
+  version: '1.6'
+  date: '2018-01-10'
+  breaking: false
+  additions: true
+  highlights: Added relay state parameter.
+- document: SavvyMoney Mobile Integration Guide
+  version: '1.4'
+  date: '2017-02-01'
+  breaking: false
+  additions: true
+  highlights: Updated with API.
+evidence:
+- url: https://hub.savvymoney.com/sphub/cms/delivery/media/MCTB4AZJKJRJBWFAXB4W2WLUCAPQ
+  status: 200
+- url: https://hub.savvymoney.com/sphub/cms/delivery/media/MCS7KWMTKCWNE7VNGJI5TFUISKCY
+  status: 200

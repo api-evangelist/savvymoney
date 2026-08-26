@@ -64,5 +64,53 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-SavvyMoney is a company surfaced via the API Evangelist harvest backlog (source: secondary-market) and added to the network as a stub for full-pipeline profiling.
-- https://forgeglobal.com/savvymoney_stock/
+SavvyMoney supplies credit score, credit monitoring, financial wellness, pre-qualified offer and
+digital account-opening software to banks and credit unions, delivered embedded inside a financial
+institution's existing online and mobile banking. SavvyMoney states it is live across 70+ pre-built
+integrations spanning 40+ digital banking platforms, including Alkami, Fiserv, Q2, Lumin and
+Candescent.
+
+## The API surface
+
+Partners integrate against a partner-scoped REST API on `creditscore.savvymoney.com`:
+
+- **SavvyMoney SSO REST API** — a JWT flow (authenticate, optional browser fingerprint, sign-on,
+  prolong, log off, plus a `RelayPost` form endpoint for iFrame embedding) that hands a partner's
+  already-authenticated member into SavvyMoney without a second credential. Access tokens live 10
+  minutes. SAML 2.0 is documented as an alternative.
+- **SavvyMoney External Credit API** — `User Status` and `User Credit Score`, so a partner can render
+  score, score change and monitoring alerts in its own UI.
+- **Embedded widgets** — hosted, SSO-gated iFrame surfaces: desktop and mobile dashboards, a score
+  widget and an offer widget.
+
+A full beta estate runs at `creditscoretest.savvymoney.com`.
+
+## What is public, and what is not
+
+Two integration guides — the SSO REST API guide (v2.1, 2022-08-08) and the Mobile Integration Guide
+(v1.8, 2019-09-17) — are served without authentication from the partner-hub CDN, and they are the
+source for most of this profile. The full endpoint reference ("SavvyMoney API Document"), credentials
+and the Partner Hub itself are behind a partner agreement.
+
+Not published anywhere on the estate: an OpenAPI or any other machine-readable contract, an AsyncAPI
+or webhook surface, a first-party SDK in any package registry, a GitHub organisation, an MCP server,
+an A2A agent card, a `security.txt`, a pricing page, or any rate limit.
+
+## Notable findings
+
+- **Errors are decoupled from HTTP status.** An unauthenticated `POST {}` to
+  `/sso/api/rest/signon` returns **HTTP 200** carrying
+  `{"errorMessage":"Missing authCode.","hasErrors":true}`. A client that branches on the status code
+  alone reads a validation failure as a success.
+- **Live status API.** `status.savvymoney.com` is an Atlassian Statuspage with a v2 JSON API and 20
+  named components — including `SSO Service - Auth`, `Credit Service`, `Offers Engine` and a separate
+  `Lending & Deposits - API Service`.
+- **Strong published compliance posture.** SOC 2 Type 2, CSA STAR Level 1 and 2, CSA Trusted Cloud
+  Provider, TRUSTe, GLBA, NIST CSF, CCPA/CPRA, with `security@savvymoney.com` and a Responsible
+  Disclosure practice — but no RFC 9116 `security.txt` to make any of it machine-discoverable.
+- **Documentation currency gap.** The newest dated API change SavvyMoney publishes anywhere is
+  2022-08-08, four years before this pass — though the endpoints it describes were confirmed live.
+- **`api.savvymoney.com` resolves but is unrouted**, answering "Site Not Configured | 404 Not Found"
+  on every path. The real API host is `creditscore.savvymoney.com`.
+
+See `apis.yml` for the full artifact index.

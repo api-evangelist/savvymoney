@@ -1,18 +1,91 @@
 aid: savvymoney
 name: SavvyMoney
-description: 'SavvyMoney is a company surfaced via the API Evangelist harvest backlog (source: secondary-market)
-  and added to the network as a stub for full-pipeline profiling.'
+description: 'SavvyMoney is a Dublin, California based financial technology company that
+  supplies credit score, credit monitoring, financial wellness, pre-qualified offer and
+  digital account-opening software to banks and credit unions. Its platform is delivered
+  embedded inside a financial institution''s existing online and mobile banking rather than
+  as a standalone destination, and SavvyMoney states it is live across 70+ pre-built
+  integrations spanning 40+ digital banking platforms including Alkami, Fiserv, Q2, Lumin
+  and Candescent. The technical surface partners integrate against is a partner-scoped REST
+  API on creditscore.savvymoney.com: a JWT-based Single Sign-On API (authenticate, sign-on,
+  optional browser fingerprint, prolong, log off, and a RelayPost form endpoint) that hands
+  a partner''s authenticated member into SavvyMoney without a second credential, plus an
+  External Credit API that returns User Status and User Credit Score data so the partner can
+  render score, score change and monitoring alerts in its own UI. Embeddable iFrame widgets
+  (score widget, offer widget, desktop and mobile dashboards) are published alongside the API,
+  and a documented beta environment runs at creditscoretest.savvymoney.com. Credentials, the
+  full API document and the partner hub are gated behind a partner agreement; no OpenAPI,
+  AsyncAPI, SDK, MCP server or agent card is published publicly.'
 url: https://raw.githubusercontent.com/api-evangelist/savvymoney/refs/heads/main/apis.yml
+image: https://www.savvymoney.com/wp-content/uploads/2022/12/cropped-SM_favicon-180x180-1-180x180.png
 x-type: company
 x-source: harvest:secondary-market
-x-tier: stub
-x-tier-reason: harvest
 specificationVersion: '0.20'
 created: '2026-08-26'
 modified: '2026-08-26'
 tags:
 - Company
-apis: []
+- Financial Services
+- Credit Scores
+- Credit Monitoring
+- Financial Wellness
+- Banking
+- Credit Unions
+- Fintech
+- Single Sign On
+- Embedded Finance
+- Lending
+- Account Opening
+apis:
+- name: SavvyMoney SSO REST API
+  description: 'JWT-based Single Sign-On REST API that lets a partner''s online or mobile
+    banking platform transfer an authenticated member into SavvyMoney without a second set of
+    credentials. Publicly documented operations are an authentication call that returns a
+    short-lived authorization code, an optional browser fingerprint call, a sign-on call that
+    exchanges the code for an access token and redirect URL, a prolong call that extends the
+    token, a log off call that revokes it immediately, and a RelayPost form endpoint used for
+    iFrame embedding. Member attributes are passed as an attributes[] array and may be AES/CBC
+    encrypted. Access tokens expire in 10 minutes. TLS 1.2 only.'
+  humanURL: https://hub.savvymoney.com/sphub/cms/delivery/media/MCTB4AZJKJRJBWFAXB4W2WLUCAPQ
+  baseURL: https://creditscore.savvymoney.com
+  tags:
+  - Single Sign On
+  - Authentication
+  - JWT
+  - Credit Scores
+  properties:
+  - type: Documentation
+    url: https://hub.savvymoney.com/sphub/cms/delivery/media/MCTB4AZJKJRJBWFAXB4W2WLUCAPQ
+  - type: Authentication
+    url: authentication/savvymoney-authentication.yml
+  - type: Sandbox
+    url: sandbox/savvymoney-sandbox.yml
+  - type: ErrorCatalog
+    url: errors/savvymoney-problem-types.yml
+  - type: Conventions
+    url: conventions/savvymoney-conventions.yml
+  - type: DataModel
+    url: data-model/savvymoney-data-model.yml
+- name: SavvyMoney External Credit API
+  description: 'Partner-facing REST API that returns select credit data for an SSO-identified
+    member so the partner can render it inside its own experience. SavvyMoney''s published
+    Mobile Integration Guide names two operations: User Status, which returns whether a member
+    is enrolled in SavvyMoney so the partner can show its own marketing message to non-enrolled
+    users, and User Credit Score, which returns the member''s credit score, score rating,
+    monitoring alerts and the date of the latest score pull. Called with the access token issued
+    by the SSO API in an HTTP Authorization header. The full endpoint reference lives in the
+    partner-gated "SavvyMoney API Document".'
+  humanURL: https://hub.savvymoney.com/sphub/cms/delivery/media/MCS7KWMTKCWNE7VNGJI5TFUISKCY
+  baseURL: https://creditscore.savvymoney.com
+  tags:
+  - Credit Scores
+  - Credit Monitoring
+  - Financial Wellness
+  properties:
+  - type: Documentation
+    url: https://hub.savvymoney.com/sphub/cms/delivery/media/MCS7KWMTKCWNE7VNGJI5TFUISKCY
+  - type: Components
+    url: components/savvymoney-components.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -20,4 +93,57 @@ maintainers:
   email: info@apis.io
 common:
 - type: Website
-  url: https://forgeglobal.com/savvymoney_stock/
+  url: https://www.savvymoney.com/
+- type: Documentation
+  url: https://www.savvymoney.com/why-savvymoney/integration-partners/
+- type: DeveloperPortal
+  url: https://hub.savvymoney.com
+- type: Support
+  url: https://www.savvymoney.com/book-a-demo/
+- type: Blog
+  url: https://www.savvymoney.com/category/news/
+- type: BlogRSS
+  url: https://www.savvymoney.com/feed/
+- type: SignUp
+  url: https://www.savvymoney.com/book-a-demo/
+- type: Login
+  url: https://hub.savvymoney.com
+- type: TermsOfService
+  url: https://www.savvymoney.com/terms-of-service/
+- type: PrivacyPolicy
+  url: https://www.savvymoney.com/privacy-policy/
+- type: StatusPage
+  url: https://status.savvymoney.com/
+- type: Lifecycle
+  url: lifecycle/savvymoney-lifecycle.yml
+- type: TrustCenter
+  url: https://trust.savvymoney.com/
+- type: Compliance
+  url: security/savvymoney-trust-center.yml
+- type: Security
+  url: security/savvymoney-vulnerability-disclosure.yml
+- type: VulnerabilityDisclosure
+  url: security/savvymoney-vulnerability-disclosure.yml
+- type: DomainSecurity
+  url: security/savvymoney-domain-security.yml
+- type: Conformance
+  url: conformance/savvymoney-conformance.yml
+- type: LLMsTxt
+  url: llms/savvymoney-llms.txt
+- type: WellKnown
+  url: well-known/savvymoney-well-known.yml
+- type: OAuthScopes
+  url: scopes/savvymoney-scopes.yml
+- type: Packages
+  url: packages/savvymoney-packages.yml
+- type: ChangeLog
+  url: changelog/savvymoney-changelog.yml
+- type: Plans
+  url: plans/savvymoney-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/savvymoney-rate-limits.yml
+x-enrichment:
+  date: '2026-08-26'
+  status: enriched
+  artifacts_added: 20
+  pass: local-v1

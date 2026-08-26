@@ -1,0 +1,147 @@
+generated: '2026-08-26'
+method: searched
+source: SavvyMoney public integration guides, trust.savvymoney.com, hub.savvymoney.com/.well-known/openid-configuration
+note: >-
+  Assertions below are graded against what SavvyMoney's own contract and published documents say,
+  not against marketing prose. Nothing is asserted from a product page alone.
+standards:
+- id: jwt
+  name: JSON Web Token (RFC 7519)
+  conforms: true
+  evidence: >-
+    "SavvyMoney APIs use the JSON Web Tokens (JWTs) technology for Single Sign On (SSO)
+    authentication and authorization." Auth Key is issued "in JWT format" and the authorization code
+    is returned in JWT format.
+  source: https://hub.savvymoney.com/sphub/cms/delivery/media/MCTB4AZJKJRJBWFAXB4W2WLUCAPQ
+- id: saml2
+  name: SAML 2.0
+  conforms: true
+  evidence: >-
+    SAML 2.0 is documented as a supported alternative to the REST flow for establishing SSO from a
+    partner's online or mobile banking platform, with a worked iFrame example targeting a
+    /SAML2/SSO endpoint on the partner side.
+  source: https://hub.savvymoney.com/sphub/cms/delivery/media/MCS7KWMTKCWNE7VNGJI5TFUISKCY
+- id: oidc
+  name: OpenID Connect Discovery 1.0
+  conforms: true
+  scope: hub.savvymoney.com (Partner Hub sign-in) only
+  evidence: >-
+    A conformant discovery document is served at https://hub.savvymoney.com/.well-known/openid-configuration
+    with issuer, authorization_endpoint, token_endpoint, userinfo_endpoint, jwks_uri,
+    registration_endpoint, introspection_endpoint and revocation_endpoint. Emitted by the Salesforce
+    Experience Cloud platform hosting the hub; it does NOT cover the credit/SSO REST API.
+  source: https://hub.savvymoney.com/.well-known/openid-configuration
+- id: oauth2
+  name: OAuth 2.0
+  conforms: partial
+  scope: hub.savvymoney.com only
+  evidence: >-
+    The hub advertises OAuth 2.0 authorization-code and token endpoints, DPoP signing algorithms and
+    private_key_jwt client authentication. The credit API does NOT use OAuth 2.0 — it uses a
+    proprietary authId/authKey exchange that borrows OAuth vocabulary ("access token",
+    "authorization code") without implementing the RFC 6749 grant types.
+  source: https://hub.savvymoney.com/.well-known/openid-configuration
+- id: rfc9457
+  name: RFC 9457 Problem Details for HTTP APIs
+  conforms: false
+  evidence: >-
+    Errors are returned as a vendor envelope {"hasErrors": true, "errorMessage": "..."} with
+    content-type application/json, and — critically — with HTTP 200 rather than a 4xx status. No
+    application/problem+json is served.
+  source: errors/savvymoney-problem-types.yml
+- id: rfc9116
+  name: RFC 9116 security.txt
+  conforms: false
+  evidence: /.well-known/security.txt returned 404 or 401 on every SavvyMoney host probed.
+  source: well-known/savvymoney-well-known.yml
+- id: rfc8594
+  name: RFC 8594 Sunset header
+  conforms: false
+  evidence: No Sunset or Deprecation headers observed; no deprecation policy published.
+  source: lifecycle/savvymoney-lifecycle.yml
+- id: openapi
+  name: OpenAPI Specification
+  conforms: false
+  evidence: >-
+    No OpenAPI or Swagger document is served on any SavvyMoney host. /openapi.json, /openapi.yaml,
+    /swagger.json, /v1/openapi.json, /v2/api-docs, /api-docs, /docs and /redoc were probed on
+    api.savvymoney.com, creditscore.savvymoney.com and creditscoretest.savvymoney.com; all returned
+    404 or an HTML shell.
+- id: asyncapi
+  name: AsyncAPI
+  conforms: false
+  evidence: No event, streaming or webhook surface is documented; nothing to describe.
+- id: tls12
+  name: TLS 1.2 minimum with weak ciphers disabled
+  conforms: true
+  evidence: >-
+    "SavvyMoney supports only TLS 1.2 SSL" and four named cipher suites are documented as disabled on
+    both beta and production. Live negotiation on creditscore.savvymoney.com is TLSv1.3.
+  source: security/savvymoney-domain-security.yml
+- id: hsts
+  name: HTTP Strict Transport Security
+  conforms: partial
+  evidence: >-
+    strict-transport-security: max-age=31536000; includeSubDomains observed on the
+    creditscore.savvymoney.com API responses and on hub.savvymoney.com (max-age 63072000). Not
+    observed on the www marketing host.
+- id: dnssec
+  name: DNSSEC
+  conforms: true
+  evidence: savvymoney.com is DNSSEC signed; CAA, SPF and DMARC (p=reject) are all published.
+  source: security/savvymoney-domain-security.yml
+domain_standards:
+  market: consumer credit data / financial institution software
+  finding: >-
+    No domain-standard signature is present in the contract. SavvyMoney's partner API is a
+    proprietary JWT/SSO shape; it carries no FDX resource model, no OFX/QFX message type, no ISO
+    20022 message, no SCIM schema URN, no OData $metadata surface and no FAPI profile. Its consumer
+    credit lineage is TransUnion (named as a subprocessor on the trust center) rather than a
+    published standard. REWARD-ONLY dimension — recorded as absent, not as a failure, and nothing is
+    invented to fill the slot.
+  probed_for:
+  - FDX (Financial Data Exchange)
+  - FAPI (Financial-grade API)
+  - OFX
+  - ISO 20022
+  - SCIM
+  - OData
+  result: none declared
+compliance_programs:
+- name: SOC 2 Type 2
+  published: true
+  source: https://trust.savvymoney.com/
+- name: CSA STAR Level 1
+  published: true
+  source: https://trust.savvymoney.com/
+- name: CSA STAR Level 2
+  published: true
+  source: https://trust.savvymoney.com/
+- name: CSA Trusted Cloud Provider
+  published: true
+  source: https://trust.savvymoney.com/
+- name: TRUSTe
+  published: true
+  source: https://trust.savvymoney.com/
+- name: GLBA
+  published: true
+  kind: regulatory-regime
+  source: https://trust.savvymoney.com/
+- name: NIST CSF
+  published: true
+  kind: framework
+  source: https://trust.savvymoney.com/
+- name: CCPA / CPRA
+  published: true
+  kind: privacy-regime
+  source: https://trust.savvymoney.com/
+evidence:
+- url: https://hub.savvymoney.com/.well-known/openid-configuration
+  status: 200
+- url: https://hub.savvymoney.com/sphub/cms/delivery/media/MCTB4AZJKJRJBWFAXB4W2WLUCAPQ
+  status: 200
+- url: https://trust.savvymoney.com/
+  status: 403
+  note: Cloudflare challenge to curl; content read via rendered fetch.
+- url: https://creditscore.savvymoney.com/openapi.json
+  status: 404

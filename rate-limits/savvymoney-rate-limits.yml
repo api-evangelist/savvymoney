@@ -1,0 +1,39 @@
+generated: '2026-08-26'
+method: searched
+source: https://hub.savvymoney.com/sphub/cms/delivery/media/MCTB4AZJKJRJBWFAXB4W2WLUCAPQ + live probe of creditscore.savvymoney.com
+limit_count: 0
+rate_limits: []
+finding: >-
+  SavvyMoney publishes no rate limits, no quota, and no throttling policy in either public
+  integration guide, and returns no rate-limit headers on a live response. An agent or partner
+  integration has no runtime signal for how much load is acceptable and no documented backoff
+  contract — the only quantified runtime constraint SavvyMoney publishes anywhere is the 10-minute
+  access-token lifetime.
+response_headers:
+  observed: []
+  x_ratelimit: false
+  ratelimit_rfc: false
+  retry_after: false
+  observed_on: https://creditscore.savvymoney.com/sso/api/rest/signon
+  observed_at: '2026-08-26'
+  headers_present_instead:
+  - server-timing
+  - strict-transport-security
+  - x-content-type-options
+  - x-xss-protection
+  - cache-control
+exhaustion_status_code: null
+adjacent_constraints:
+- constraint: Access token lifetime
+  value: 600 seconds
+  source: SSO Integration Using SavvyMoney REST API v2.1
+- constraint: Partner must allowlist SavvyMoney static egress IPs
+  value: 3.227.227.11, 3.222.59.58 (production); 18.210.174.44, 75.101.165.109 (beta)
+  source: SSO Integration Using SavvyMoney REST API v2.1
+evidence:
+- url: https://creditscore.savvymoney.com/sso/api/rest/signon
+  status: 200
+  note: Live POST; full response header set inspected, no rate-limit header of any family present.
+- url: https://hub.savvymoney.com/sphub/cms/delivery/media/MCTB4AZJKJRJBWFAXB4W2WLUCAPQ
+  status: 200
+  note: Public SSO guide; no limits section.

@@ -1,0 +1,92 @@
+generated: '2026-08-26'
+method: searched
+source: live probes of every SavvyMoney host named in apis.yml
+hit_count: 1
+note: >-
+  One real document was served across the whole estate: an OpenID Connect discovery document at
+  hub.savvymoney.com. It is emitted by the Salesforce Experience Cloud platform that hosts the
+  SavvyMoney Partner Hub (the scopes_supported list is Salesforce-native — pardot_api, cdp_*,
+  visualforce, lightning), served under SavvyMoney's own issuer https://hub.savvymoney.com. It
+  governs partner-hub sign-in, NOT the creditscore.savvymoney.com credit/SSO REST API, which is
+  documented as JWT auth-id/auth-key rather than OAuth. Every other path on every other host
+  returned 404, 401 or an HTML shell. www.savvymoney.com is WordPress and answers unknown
+  /.well-known/* paths with a 404-status HTML page (~176KB), so no HTML body was accepted as a
+  document. api.savvymoney.com resolves but is unrouted ("Site Not Configured | 404 Not Found").
+hosts:
+- host: https://hub.savvymoney.com
+  documents:
+  - path: /.well-known/openid-configuration
+    status: 200
+    file: savvymoney-hub-openid-configuration.json
+  - path: /.well-known/security.txt
+    status: 401
+  - path: /.well-known/oauth-authorization-server
+    status: 401
+  - path: /.well-known/api-catalog
+    status: 401
+  - path: /.well-known/ai-plugin.json
+    status: 401
+  - path: /.well-known/agent-card.json
+    status: 401
+  - path: /.well-known/agent.json
+    status: 401
+- host: https://www.savvymoney.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: https://creditscore.savvymoney.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: https://creditscoretest.savvymoney.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: https://api.savvymoney.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404

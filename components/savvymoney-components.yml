@@ -1,0 +1,58 @@
+generated: '2026-08-26'
+method: searched
+source: https://hub.savvymoney.com/sphub/cms/delivery/media/MCTB4AZJKJRJBWFAXB4W2WLUCAPQ
+present: true
+distribution: hosted-iframe
+distribution_note: >-
+  SavvyMoney's client-side surface is a set of hosted, SSO-gated application URLs embedded in an
+  iFrame — not an npm element library, not web components, and not a JS loader SDK. The partner
+  posts an authorization code to a relay endpoint and points an iFrame at the returned application
+  URL. There is no loader library to install and no versioned component package, so nothing appears
+  in packages/.
+loader_libraries: []
+families:
+- family: Credit score dashboards
+  components:
+  - name: Desktop dashboard
+    app_url_beta: https://creditscoretest.savvymoney.com/ui/sso
+    surface: full-page embedded dashboard
+  - name: Mobile dashboard
+    app_url_beta: https://creditscoretest.savvymoney.com/ui/mobile-sso
+    surface: mobile-optimised embedded dashboard
+- family: Widgets
+  components:
+  - name: Regular widget
+    app_url_beta: https://creditscoretest.savvymoney.com/ui/widget-sso
+  - name: Mobile widget
+    app_url_beta: https://creditscoretest.savvymoney.com/ui/mobile-widget-sso
+  - name: Score widget
+    app_url_beta: https://creditscoretest.savvymoney.com/ui/score-widget-sso
+    surface: compact credit-score tile for an online-banking dashboard
+  - name: Offer widget
+    app_url_beta: https://creditscoretest.savvymoney.com/ui/offer-widget-sso
+    surface: pre-qualified offer placement
+embedding:
+  mechanism: HTML form POST into a named iFrame
+  relay_endpoint: /sso/api/RelayPost
+  parameters:
+  - name: AuthCode
+    description: Short-lived JWT authorization code from the SSO Authentication API.
+  - name: AuthAppUrl
+    description: The SavvyMoney application URL to launch inside the iFrame.
+  sandbox_attribute_example: 'sandbox="allow-same-origin allow-scripts allow-popups allow-forms"'
+  responsive: true
+  responsive_note: SavvyMoney states the embedded site is responsive and works in native, hybrid and web mobile containers.
+alternative_data_path:
+  note: >-
+    Partners that do not want SavvyMoney's UI call the External Credit API (User Status, User Credit
+    Score) and render score, score change and alerts themselves. SavvyMoney describes this as the
+    path for partners that "want to drive the look and feel of how that limited data is presented".
+gaps:
+- No versioned, pinnable component distribution — the embedded app URL floats to whatever SavvyMoney deploys.
+- No published theming, CSS-variable or localisation contract for the embedded surfaces.
+- Documented app URLs are beta examples only; production equivalents are not published publicly.
+evidence:
+- url: https://hub.savvymoney.com/sphub/cms/delivery/media/MCTB4AZJKJRJBWFAXB4W2WLUCAPQ
+  status: 200
+- url: https://hub.savvymoney.com/sphub/cms/delivery/media/MCS7KWMTKCWNE7VNGJI5TFUISKCY
+  status: 200

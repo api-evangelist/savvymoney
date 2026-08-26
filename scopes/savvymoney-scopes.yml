@@ -1,0 +1,98 @@
+generated: '2026-08-26'
+method: probed
+source: https://hub.savvymoney.com/.well-known/openid-configuration
+scope_note: 'SCOPE OF THIS FILE: these scopes govern sign-in to the SavvyMoney Partner Hub (hub.savvymoney.com),
+  NOT the credit/SSO REST API on creditscore.savvymoney.com. The Partner Hub runs on Salesforce Experience
+  Cloud and the advertised scopes are Salesforce platform scopes (pardot_api, cdp_*, visualforce, lightning,
+  wave_api, einstein_gpt_api), served under SavvyMoney''s own issuer. They are recorded verbatim because
+  they are what SavvyMoney''s host actually advertises, but a partner integrating the credit API will
+  never request any of them - that API uses a proprietary authId/authKey JWT exchange with no scope parameter
+  at all.'
+issuer: https://hub.savvymoney.com
+authorization_endpoint: https://hub.savvymoney.com/services/oauth2/authorize
+token_endpoint: https://hub.savvymoney.com/services/oauth2/token
+scope_count: 36
+scopes:
+- name: address
+  description: Advertised in scopes_supported; no per-scope description is published.
+- name: api
+  description: Advertised in scopes_supported; no per-scope description is published.
+- name: cdp_api
+  description: Advertised in scopes_supported; no per-scope description is published.
+- name: cdp_calculated_insight_api
+  description: Advertised in scopes_supported; no per-scope description is published.
+- name: cdp_identityresolution_api
+  description: Advertised in scopes_supported; no per-scope description is published.
+- name: cdp_ingest_api
+  description: Advertised in scopes_supported; no per-scope description is published.
+- name: cdp_profile_api
+  description: Advertised in scopes_supported; no per-scope description is published.
+- name: cdp_query_api
+  description: Advertised in scopes_supported; no per-scope description is published.
+- name: cdp_segment_api
+  description: Advertised in scopes_supported; no per-scope description is published.
+- name: chatbot_api
+  description: Advertised in scopes_supported; no per-scope description is published.
+- name: chatter_api
+  description: Advertised in scopes_supported; no per-scope description is published.
+- name: content
+  description: Advertised in scopes_supported; no per-scope description is published.
+- name: custom_permissions
+  description: Advertised in scopes_supported; no per-scope description is published.
+- name: data_cloud_user_claims
+  description: Advertised in scopes_supported; no per-scope description is published.
+- name: eclair_api
+  description: Advertised in scopes_supported; no per-scope description is published.
+- name: einstein_gpt_api
+  description: Advertised in scopes_supported; no per-scope description is published.
+- name: email
+  description: Advertised in scopes_supported; no per-scope description is published.
+- name: forgot_password
+  description: Advertised in scopes_supported; no per-scope description is published.
+- name: full
+  description: Advertised in scopes_supported; no per-scope description is published.
+- name: id
+  description: Advertised in scopes_supported; no per-scope description is published.
+- name: interaction_api
+  description: Advertised in scopes_supported; no per-scope description is published.
+- name: lightning
+  description: Advertised in scopes_supported; no per-scope description is published.
+- name: mcp_api
+  description: Advertised in scopes_supported; no per-scope description is published.
+- name: offline_access
+  description: Advertised in scopes_supported; no per-scope description is published.
+- name: openid
+  description: Advertised in scopes_supported; no per-scope description is published.
+- name: pardot_api
+  description: Advertised in scopes_supported; no per-scope description is published.
+- name: phone
+  description: Advertised in scopes_supported; no per-scope description is published.
+- name: profile
+  description: Advertised in scopes_supported; no per-scope description is published.
+- name: pwdless_login_api
+  description: Advertised in scopes_supported; no per-scope description is published.
+- name: refresh_token
+  description: Advertised in scopes_supported; no per-scope description is published.
+- name: scrt_api
+  description: Advertised in scopes_supported; no per-scope description is published.
+- name: sfap_api
+  description: Advertised in scopes_supported; no per-scope description is published.
+- name: user_registration_api
+  description: Advertised in scopes_supported; no per-scope description is published.
+- name: visualforce
+  description: Advertised in scopes_supported; no per-scope description is published.
+- name: wave_api
+  description: Advertised in scopes_supported; no per-scope description is published.
+- name: web
+  description: Advertised in scopes_supported; no per-scope description is published.
+credit_api_scopes:
+  present: false
+  note: The documented credit/SSO API has no scope model. Authorisation is bounded instead by the API
+    user's Audience Domains and Partner ID List, configured by SavvyMoney at credential issuance rather
+    than requested per call.
+  source: authentication/savvymoney-authentication.yml
+evidence:
+- url: https://hub.savvymoney.com/.well-known/openid-configuration
+  status: 200
+- url: https://creditscore.savvymoney.com/.well-known/oauth-authorization-server
+  status: 404

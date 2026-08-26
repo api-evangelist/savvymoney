@@ -1,0 +1,119 @@
+generated: '2026-08-26'
+method: searched
+source: https://hub.savvymoney.com/sphub/cms/delivery/media/MCTB4AZJKJRJBWFAXB4W2WLUCAPQ
+note: >-
+  Cross-cutting runtime semantics for the SavvyMoney partner REST API, read from SavvyMoney's own
+  public SSO Integration guide and Mobile Integration guide plus live probes. No OpenAPI exists, so
+  nothing here is derived from a spec.
+auth_style:
+  model: partner-scoped JWT
+  header: Authorization
+  token_lifetime_seconds: 600
+  see: authentication/savvymoney-authentication.yml
+idempotency:
+  supported: unknown
+  status: undocumented
+  note: >-
+    No idempotency key, no Idempotency-Key header, and no replay semantics are documented anywhere
+    in the public guides, and there is no spec to derive them from. The write surface is limited to
+    session operations (sign-on, prolong, log off), where a repeated call is materially different
+    from a no-op — prolong extends a token and log off destroys it. Recorded as undocumented
+    rather than absent, and NO Idempotency pointer is emitted.
+pagination:
+  supported: unknown
+  status: undocumented
+  note: The credit endpoints return a single member's status/score; no collection endpoint is publicly documented.
+field_expansion:
+  supported: false
+  note: Not documented.
+metadata:
+  supported: true
+  mechanism: >-
+    The SSO attributes array accepts supplemental1, supplemental2 and supplemental3 as
+    partner-defined passthrough values alongside the fixed member attributes.
+request_id_tracing:
+  supported: partial
+  mechanism: >-
+    Responses carry a W3C-format Server-Timing traceparent header, e.g.
+    'server-timing: traceparent;desc="00-<trace-id>-<span-id>-03"', exposed to the browser via
+    access-control-expose-headers: Server-Timing. No documented correlation-ID request header.
+  observed: '2026-08-26'
+versioning:
+  scheme: none-in-path
+  note: >-
+    The documented paths carry no version segment (/sso/api/rest/signon, not /v1/...). Versioning is
+    tracked only in the revision history of the partner-facing integration documents.
+  see: changelog/savvymoney-changelog.yml
+error_envelope:
+  shape: '{"hasErrors": bool, "errorMessage": string}'
+  http_status_decoupled: true
+  see: errors/savvymoney-problem-types.yml
+rate_limit_signaling:
+  headers: []
+  status: absent
+  note: >-
+    No X-RateLimit-*, RateLimit-* or Retry-After headers were present on a live unauthenticated
+    response from creditscore.savvymoney.com, and no limits are published.
+  see: rate-limits/savvymoney-rate-limits.yml
+caching:
+  observed_headers:
+  - 'cache-control: no-cache, no-store, max-age=0, must-revalidate'
+  - 'pragma: no-cache'
+  - 'expires: 0'
+  note: The SSO endpoints explicitly forbid caching, consistent with a credential-bearing surface.
+security_headers_observed:
+- 'strict-transport-security: max-age=31536000; includeSubDomains'
+- 'x-content-type-options: nosniff'
+- 'x-xss-protection: 1; mode=block'
+reversibility:
+  grade: documented
+  applies_to: session/authorization surface only
+  data_surface_note: >-
+    The credit data surface (User Status, User Credit Score) is READ-ONLY — it returns a member's
+    score, rating, alerts and last pull date and creates nothing. Reversibility, dry-run and
+    idempotency are therefore `na` for that surface. The only write-like actions SavvyMoney
+    publicly documents are session grants, and those DO have a reversal path.
+  operations:
+  - action: Grant an access token (SSO Sign On)
+    reversal: 'SSO Log Off API — POST /sso/api/rest/logoff, returns {"hasErrors": false, "loggedOff": true}'
+    window: >-
+      Stated by the provider: "Make a logoff request to SavvyMoney SSO server in order to log off
+      the access token immediately. Otherwise, the access token will automatically expire in 10
+      minutes." The reversal is immediate and the grant self-reverses at 10 minutes.
+    window_source: https://hub.savvymoney.com/sphub/cms/delivery/media/MCTB4AZJKJRJBWFAXB4W2WLUCAPQ
+    grade: verified
+  - action: Extend an access token (SSO Prolong)
+    reversal: SSO Log Off API
+    window: Same 10-minute token lifetime restarts; no separate reversal window is stated.
+    grade: documented
+  - action: SSO enrollment of a member into SavvyMoney
+    reversal: null
+    window: null
+    note: >-
+      No unenroll, delete-member or data-deletion operation is documented in the public API guides.
+      Member data removal is described only in the privacy policy as a human request process, not
+      as an API operation. NOT graded — an undocumented reversal is recorded as absent, not assumed.
+    grade: absent
+  overall_note: >-
+    Graded `documented` overall rather than `verified` because the one operation with a stated
+    window is a session revocation, while the enrollment side-effect an SSO call actually creates
+    has no published reversal at all.
+dry_run_mode:
+  supported: partial
+  note: >-
+    There is no dry-run flag, but SavvyMoney publishes a full separate beta environment at
+    creditscoretest.savvymoney.com with its own static IPs and its own application URLs, which is
+    the rehearsal surface a partner uses instead.
+  see: sandbox/savvymoney-sandbox.yml
+cross_links:
+- authentication/savvymoney-authentication.yml
+- errors/savvymoney-problem-types.yml
+- lifecycle/savvymoney-lifecycle.yml
+- rate-limits/savvymoney-rate-limits.yml
+- sandbox/savvymoney-sandbox.yml
+evidence:
+- url: https://creditscore.savvymoney.com/sso/api/rest/signon
+  status: 200
+  note: Headers and error envelope observed live 2026-08-26.
+- url: https://hub.savvymoney.com/sphub/cms/delivery/media/MCTB4AZJKJRJBWFAXB4W2WLUCAPQ
+  status: 200

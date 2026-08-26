@@ -1,0 +1,71 @@
+generated: '2026-08-26'
+method: searched
+source: https://hub.savvymoney.com/sphub/cms/delivery/media/MCTB4AZJKJRJBWFAXB4W2WLUCAPQ
+present: true
+name: SavvyMoney Beta (Test) environment
+model: separate-host
+note: >-
+  SavvyMoney runs a full parallel test estate rather than a test-mode flag on production. Every
+  documented endpoint and every embeddable application URL has a beta twin on
+  creditscoretest.savvymoney.com. Credentials for it are issued by SavvyMoney under a partner
+  agreement — there is no self-serve sandbox signup — so the environment is real and documented but
+  not open. No test cards, magic identifiers, test clocks or fixture/trigger tooling are published.
+environments:
+- name: production
+  host: https://creditscore.savvymoney.com
+  static_egress_ips:
+  - 3.227.227.11
+  - 3.222.59.58
+  note: Partners must allowlist these IPs on their own firewall.
+- name: beta
+  aliases: [test]
+  host: https://creditscoretest.savvymoney.com
+  static_egress_ips:
+  - 18.210.174.44
+  - 75.101.165.109
+key_model:
+  test_live_separation: separate-credentials
+  prefixes: []
+  note: >-
+    Auth ID / Auth Key pairs are issued per environment; SavvyMoney publishes no key prefix
+    convention that would let a client tell a test credential from a live one by inspection.
+test_application_urls:
+  note: Published verbatim by SavvyMoney as beta examples for the appUrl / AuthAppUrl parameter.
+  urls:
+  - name: Regular widget
+    url: https://creditscoretest.savvymoney.com/ui/widget-sso
+  - name: Desktop dashboard
+    url: https://creditscoretest.savvymoney.com/ui/sso
+  - name: Mobile dashboard
+    url: https://creditscoretest.savvymoney.com/ui/mobile-sso
+  - name: Mobile widget
+    url: https://creditscoretest.savvymoney.com/ui/mobile-widget-sso
+  - name: Score widget
+    url: https://creditscoretest.savvymoney.com/ui/score-widget-sso
+  - name: Offer widget
+    url: https://creditscoretest.savvymoney.com/ui/offer-widget-sso
+test_data:
+  test_cards: []
+  test_identifiers: []
+  note: >-
+    None published. SavvyMoney explicitly warns that partnerMemberId "cannot be the SSN of the
+    user", but publishes no safe test member set, so a partner cannot rehearse a score pull without
+    SavvyMoney-provisioned test members.
+time_simulation:
+  supported: false
+fixtures_or_triggers:
+  supported: false
+self_serve: false
+gaps:
+- No self-serve sandbox — beta credentials require a partner agreement.
+- No published test members, test SSNs or synthetic credit files.
+- No documented way to distinguish a beta credential from a production one by inspection.
+evidence:
+- url: https://creditscoretest.savvymoney.com/
+  status: 302
+  note: Live host, redirects.
+- url: https://creditscoretest.savvymoney.com/sso/api/rest
+  status: 404
+  note: application/json Spring error body — the SSO API is mounted on this host.
+- url: https://hub.savvymoney.com/sphub/cms/delivery/media/MCTB4AZJKJRJBWFAXB4W2WLUCAPQ
+  status: 200

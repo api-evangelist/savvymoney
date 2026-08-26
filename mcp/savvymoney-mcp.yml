@@ -1,0 +1,33 @@
+generated: '2026-08-26'
+method: searched
+source: probes of savvymoney.com hosts + web search for a published SavvyMoney MCP server
+status: none
+deployment:
+  mode: none
+  endpoint: null
+  install: null
+  package: null
+  auth: unknown
+  verified: searched
+finding: >-
+  SavvyMoney publishes no MCP server — no hosted remote endpoint, no npm or PyPI stdio package, and
+  no MCP reference anywhere in its documentation, llms.txt or partner hub. No candidate tool list is
+  derived here either: deriving one requires an OpenAPI to bind tools to operationIds, and
+  SavvyMoney publishes no machine-readable contract. NO MCPServer pointer is emitted in apis.yml,
+  because emitting one would credit SavvyMoney with an agent surface it does not serve.
+probes:
+- url: https://api.savvymoney.com/.well-known/oauth-protected-resource
+  status: 404
+  note: Host resolves but is unrouted ("Site Not Configured").
+- url: https://creditscore.savvymoney.com/.well-known/oauth-authorization-server
+  status: 404
+- url: https://hub.savvymoney.com/.well-known/oauth-authorization-server
+  status: 401
+registry_search:
+  npm: 0 first-party results
+  pypi: 404
+  github_org: 404 (no organisation)
+blocker: >-
+  The prerequisite for an MCP server here is a machine-readable contract. Until SavvyMoney publishes
+  an OpenAPI for the SSO and External Credit APIs, neither SavvyMoney nor a third party can generate
+  a faithful tool set for it.

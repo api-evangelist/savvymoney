@@ -1,0 +1,45 @@
+generated: '2026-08-26'
+method: searched
+source: registry searches of npm, PyPI, RubyGems, crates.io, NuGet, Maven Central, pkg.go.dev, Packagist + GitHub
+package_count: 0
+official_package_count: 0
+packages: []
+finding: >-
+  SavvyMoney ships no first-party client library in any public package registry, and has no GitHub
+  organisation. Integration is hand-rolled against the REST endpoints or done through one of the
+  40+ digital-banking platforms that carry a prebuilt SavvyMoney integration, which means the
+  integration code lives in the partner platform's codebase (Alkami, Fiserv, Q2, Lumin, Candescent),
+  not in a SavvyMoney-published SDK. No `SDKs` pointer is emitted, because there is no SDK.
+registries_probed:
+- registry: npm
+  query: savvymoney
+  endpoint: https://registry.npmjs.org/-/v1/search?text=savvymoney
+  status: 200
+  first_party_hits: 0
+  note: One unrelated third-party result (react-native-card-poc, version 1.0.41, published 2024-07-15) — not a SavvyMoney client library.
+- registry: pypi
+  endpoint: https://pypi.org/pypi/savvymoney/json
+  status: 404
+  first_party_hits: 0
+- registry: rubygems
+  endpoint: https://rubygems.org/api/v1/search.json?query=savvymoney
+  status: 200
+  first_party_hits: 0
+  note: Empty array.
+- registry: github
+  endpoint: https://api.github.com/orgs/savvymoney
+  status: 404
+  first_party_hits: 0
+  note: >-
+    No GitHub organisation. A repository search returns 5 results, all personal accounts
+    (smeugene/wdio, jacek-skwarna/savvymoney, gardianAngel/SavvyMoney, jake578/savvymoney-cro-cockpit,
+    dmitry-borisov-clearscale/savvymoney-v2-load-tests) — contractor and test scratch repos, none
+    first-party and none a client library.
+- registry: cdn
+  status: none
+  note: >-
+    The client-side surface is a hosted iFrame application URL, not a CDN-distributed script, so
+    there is no pinned or unpinned bundle URL to read a version from. See
+    components/savvymoney-components.yml.
+gaps:
+- No first-party SDK in any language; version and published date are therefore null everywhere, by absence rather than by a failed lookup.

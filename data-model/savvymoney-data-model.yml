@@ -1,0 +1,199 @@
+generated: '2026-08-26'
+method: derived
+source: https://hub.savvymoney.com/sphub/cms/delivery/media/MCTB4AZJKJRJBWFAXB4W2WLUCAPQ
+note: >-
+  DERIVED FROM THE PUBLIC INTEGRATION GUIDES, NOT FROM A SPEC. SavvyMoney publishes no OpenAPI, so
+  there are no $ref links or component schemas to walk. The entities below are reconstructed from
+  the SSO attribute table (which the guide publishes in full, with type, required flag,
+  encryptability and an example per field) and from the named response fields of the SSO and credit
+  operations. Fields the guide does not name are not invented; the Credit Score entity in particular
+  is described only in prose in the Mobile Integration Guide and its exact field names are
+  partner-gated.
+entities:
+- name: ApiUser
+  description: The partner application credential set issued by SavvyMoney.
+  identifier: authId
+  fields:
+  - name: authId
+    type: string
+    description: Client identifier.
+  - name: authKey
+    type: string
+    format: JWT
+    description: Authentication key.
+  - name: audienceDomains
+    type: array<string>
+    description: SavvyMoney domains or partner credit-score subdomains this API user may target.
+  - name: partnerIdList
+    type: array<string>
+    description: Partner IDs this API user is authorised to perform SSO for.
+  - name: aesCbcKey
+    type: string
+    description: Symmetric key for AES/CBC encryption of member attributes.
+  confidence: high
+- name: Partner
+  description: A financial institution or digital banking platform integrated with SavvyMoney.
+  identifier: partnerId
+  fields:
+  - name: partnerId
+    type: alphanumeric
+    required: true
+    encryptable: false
+    example: '201'
+    description: Unique identifier of the partner assigned by SavvyMoney.
+  confidence: high
+- name: Member
+  description: The end user (a partner's banking customer) transferred into SavvyMoney by SSO.
+  identifier: partnerMemberId
+  fields:
+  - name: partnerMemberId
+    type: numeric-or-alphanumeric
+    required: true
+    encryptable: true
+    case_sensitive: true
+    constraint: Cannot be the SSN of the user.
+    example: '123456789'
+  - name: firstName
+    type: alphanumeric
+    required: false
+    encryptable: true
+  - name: lastName
+    type: alphanumeric
+    required: false
+    encryptable: true
+  - name: email
+    type: email
+    required: false
+    encryptable: true
+    description: Used to send score updates and monitoring notifications.
+  - name: address1
+    type: alphanumeric
+    required: false
+    encryptable: true
+  - name: address2
+    type: alphanumeric
+    required: false
+    encryptable: true
+  - name: city
+    type: alphanumeric
+    required: false
+    encryptable: true
+  - name: state
+    type: string
+    format: 2-letter US state abbreviation
+    required: false
+    encryptable: true
+  - name: zip
+    type: string
+    format: 5-digit US ZIP
+    required: false
+    encryptable: true
+  - name: dob
+    type: string
+    format: MMDDYYYY (numeric, no separators)
+    required: false
+    encryptable: true
+  - name: ssn
+    type: string
+    required: false
+    encryptable: true
+    sensitivity: pii-high
+  - name: supplemental1
+    type: string
+    required: false
+    encryptable: true
+    description: Partner-defined passthrough value.
+  - name: supplemental2
+    type: string
+    required: false
+    encryptable: true
+  - name: supplemental3
+    type: string
+    required: false
+    encryptable: true
+  confidence: high
+- name: AuthorizationCode
+  description: Short-lived JWT returned by the SSO Authentication API and exchanged for an access token.
+  fields:
+  - name: authCode
+    type: string
+    format: JWT
+  - name: notBeforeTime
+    type: string
+    format: date-time
+  - name: hasErrors
+    type: boolean
+  confidence: high
+- name: AccessToken
+  description: Bearer credential presented to the credit API in an Authorization header.
+  fields:
+  - name: accessToken
+    type: string
+  - name: expirationTime
+    type: string
+    format: date-time
+  - name: redirectUrl
+    type: string
+    description: SavvyMoney credit application URL carrying an smtoken query parameter.
+  - name: hasErrors
+    type: boolean
+  lifetime_seconds: 600
+  confidence: high
+- name: Fingerprint
+  description: Optional browser binding that restricts an access token to one browser.
+  fields:
+  - name: fingerprint
+    type: string
+  - name: hasErrors
+    type: boolean
+  confidence: high
+- name: UserStatus
+  description: Whether a member is signed up for SavvyMoney, used by partners to decide whether to show their own marketing message.
+  fields: []
+  fields_note: Field names are not published; the Mobile Integration Guide describes the operation in prose only.
+  confidence: low
+- name: CreditScore
+  description: A member's credit score, score rating, monitoring alerts and the date of the latest score pull.
+  fields: []
+  fields_note: >-
+    Field names, score range and bureau attribution are not published. TransUnion is named as a
+    subprocessor on the trust center, which is the only public signal of the underlying bureau.
+  confidence: low
+relationships:
+- from: ApiUser
+  to: Partner
+  type: has_many
+  via: partnerIdList
+- from: Partner
+  to: Member
+  type: has_many
+  via: partnerMemberId
+- from: Member
+  to: AuthorizationCode
+  type: has_many
+  via: SSO Authentication API request attributes
+- from: AuthorizationCode
+  to: AccessToken
+  type: has_one
+  via: SSO Sign On API exchange
+- from: AccessToken
+  to: Fingerprint
+  type: has_one
+  via: optional browser binding on sign-on
+- from: Member
+  to: UserStatus
+  type: has_one
+- from: Member
+  to: CreditScore
+  type: has_many
+  via: score pulls over time (latest pull date returned)
+id_prefixes: []
+id_prefixes_note: No id-prefix convention is published; partnerMemberId is chosen by the partner.
+gaps:
+- The two credit response entities are named but their field lists are partner-gated, so the read side of the model is documented only in prose.
+- No pagination, no collection resource and no cursor model is published.
+evidence:
+- url: https://hub.savvymoney.com/sphub/cms/delivery/media/MCTB4AZJKJRJBWFAXB4W2WLUCAPQ
+  status: 200
+- url: https://hub.savvymoney.com/sphub/cms/delivery/media/MCS7KWMTKCWNE7VNGJI5TFUISKCY
+  status: 200

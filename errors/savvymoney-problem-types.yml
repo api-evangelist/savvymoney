@@ -1,0 +1,57 @@
+generated: '2026-08-26'
+method: probed
+source: live probe of https://creditscore.savvymoney.com + the public SSO Integration guide
+format: vendor-json
+rfc9457: false
+note: >-
+  SavvyMoney publishes no OpenAPI, so no 4xx/5xx response schemas could be derived. This catalog is
+  built from two things that are real: the response envelope shown in SavvyMoney's own public SSO
+  guide, and a live unauthenticated probe of the sign-on endpoint. There is no public error-code
+  reference; only the envelope and one observed message are recorded here.
+envelope:
+  content_type: application/json
+  shape:
+    hasErrors: boolean — false on success, true on failure
+    errorMessage: string — human-readable failure reason, present only when hasErrors is true
+  finding: >-
+    THE APPLICATION ERROR ENVELOPE IS DECOUPLED FROM THE HTTP STATUS. An unauthenticated POST of
+    {} to /sso/api/rest/signon returned HTTP 200 with body
+    {"errorMessage":"Missing authCode.","hasErrors":true}. A client that branches on the HTTP
+    status alone will read a validation failure as a success; hasErrors must be inspected on every
+    response. This is the single most important runtime semantic for an agent calling this API.
+  success_example: '{"hasErrors": false, "accessToken": "<Access Token>", "expirationTime": "2018-12-03T18:50:51.101Z", "redirectUrl": "<SavvyMoney Credit App URL with smtoken>"}'
+  failure_example: '{"errorMessage": "Missing authCode.", "hasErrors": true}'
+problem_types:
+- id: missing-auth-code
+  title: Missing authCode.
+  http_status: 200
+  envelope_flag: hasErrors=true
+  operation: SSO Sign On API (POST /sso/api/rest/signon)
+  cause: The sign-on request body did not carry the authCode returned by the SSO Authentication API.
+  remediation: Call the SSO Authentication API first and pass its authCode on the sign-on request.
+  method: probed
+  observed: '2026-08-26'
+- id: not-found
+  title: Not Found
+  http_status: 404
+  envelope: '{"timestamp":"...","status":404,"error":"Not Found","path":"..."}'
+  note: >-
+    Unknown paths under /sso/api/ return the Spring Boot default error body with a real HTTP 404 —
+    a different envelope from the application-level hasErrors envelope above. Two error shapes
+    coexist on the same host.
+  method: probed
+  observed: '2026-08-26'
+undocumented:
+- No published error-code registry or reference page was found on any SavvyMoney host.
+- No 401/403 semantics are documented for an expired or revoked access token.
+- No rate-limit (429) behaviour is documented or observable.
+evidence:
+- url: https://creditscore.savvymoney.com/sso/api/rest/signon
+  status: 200
+  note: 'POST {} -> {"errorMessage":"Missing authCode.","hasErrors":true}'
+- url: https://creditscore.savvymoney.com/sso/api/rest
+  status: 404
+  note: 'application/json Spring error body'
+- url: https://hub.savvymoney.com/sphub/cms/delivery/media/MCTB4AZJKJRJBWFAXB4W2WLUCAPQ
+  status: 200
+  note: Public SSO guide showing the hasErrors response models.

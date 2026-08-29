@@ -17,6 +17,17 @@ description: 'SavvyMoney is a Dublin, California based financial technology comp
   full API document and the partner hub are gated behind a partner agreement; no OpenAPI,
   AsyncAPI, SDK, MCP server or agent card is published publicly.'
 url: https://raw.githubusercontent.com/api-evangelist/savvymoney/refs/heads/main/apis.yml
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 image: https://www.savvymoney.com/wp-content/uploads/2022/12/cropped-SM_favicon-180x180-1-180x180.png
 x-type: company
 x-source: harvest:secondary-market

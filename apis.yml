@@ -36,6 +36,19 @@ created: '2026-08-26'
 modified: '2026-08-26'
 tags:
 - Company
+- Financial-Services
+- Credit Scores
+- Credit Monitoring
+- Financial Wellness
+- Banking
+- Credit Unions
+- Fintech
+- Single Sign-On
+- Embedded Finance
+- Lending
+- Account Opening
+tags_raw:
+- Company
 - Financial Services
 - Credit Scores
 - Credit Monitoring
@@ -60,6 +73,11 @@ apis:
   humanURL: https://hub.savvymoney.com/sphub/cms/delivery/media/MCTB4AZJKJRJBWFAXB4W2WLUCAPQ
   baseURL: https://creditscore.savvymoney.com
   tags:
+  - Single Sign-On
+  - Authentication
+  - JWT
+  - Credit Scores
+  tags_raw:
   - Single Sign On
   - Authentication
   - JWT

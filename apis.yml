@@ -53,13 +53,13 @@ modified: '2026-08-26'
 tags:
 - Company
 - Financial-Services
-- Credit Scores
+- Credit Score
 - Credit Monitoring
 - Financial Wellness
 - Banking
-- Credit Unions
+- Credit Union
 - Fintech
-- Single Sign-On
+- SSO
 - Embedded Finance
 - Lending
 - Account Opening
@@ -89,10 +89,10 @@ apis:
   humanURL: https://hub.savvymoney.com/sphub/cms/delivery/media/MCTB4AZJKJRJBWFAXB4W2WLUCAPQ
   baseURL: https://creditscore.savvymoney.com
   tags:
-  - Single Sign-On
+  - SSO
   - Authentication
   - JWT
-  - Credit Scores
+  - Credit Score
   tags_raw:
   - Single Sign On
   - Authentication
@@ -123,6 +123,10 @@ apis:
   humanURL: https://hub.savvymoney.com/sphub/cms/delivery/media/MCS7KWMTKCWNE7VNGJI5TFUISKCY
   baseURL: https://creditscore.savvymoney.com
   tags:
+  - Credit Score
+  - Credit Monitoring
+  - Financial Wellness
+  tags_raw:
   - Credit Scores
   - Credit Monitoring
   - Financial Wellness

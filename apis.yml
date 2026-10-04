@@ -52,7 +52,7 @@ created: '2026-08-26'
 modified: '2026-08-26'
 tags:
 - Company
-- Financial-Services
+- Financial Services
 - Credit Score
 - Credit Monitoring
 - Financial Wellness
@@ -76,6 +76,7 @@ tags_raw:
 - Embedded Finance
 - Lending
 - Account Opening
+- Financial-Services
 apis:
 - name: SavvyMoney SSO REST API
   description: 'JWT-based Single Sign-On REST API that lets a partner''s online or mobile

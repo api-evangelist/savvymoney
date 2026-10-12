@@ -1,0 +1,16 @@
+generated: '2026-10-12'
+method: none
+source:
+- https://zapier.com/apps/savvymoney/integrations
+- https://n8n.io/integrations/savvymoney/
+- https://composio.dev/toolkits/savvymoney
+- https://monid.ai/tools/savvymoney
+checked:
+- https://composio.dev/toolkits/savvymoney
+- https://monid.ai/tools/savvymoney
+- https://n8n.io/integrations/savvymoney/
+- https://zapier.com/apps/savvymoney/integrations
+summary: null
+marketplace_apps: []
+edges: []
+templates: []

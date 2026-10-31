@@ -64,53 +64,113 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-SavvyMoney supplies credit score, credit monitoring, financial wellness, pre-qualified offer and
-digital account-opening software to banks and credit unions, delivered embedded inside a financial
-institution's existing online and mobile banking. SavvyMoney states it is live across 70+ pre-built
-integrations spanning 40+ digital banking platforms, including Alkami, Fiserv, Q2, Lumin and
-Candescent.
+SavvyMoney is a Dublin, California based financial technology company that supplies credit score, credit monitoring, financial wellness, pre-qualified offer and digital account-opening software to banks and credit unions. Its platform is delivered embedded inside a financial institution's existing online and mobile banking rather than as a standalone destination, and SavvyMoney states it is live across 70+ pre-built integrations spanning 40+ digital banking platforms including Alkami, Fiserv, Q2, Lumin and Candescent. The technical surface partners integrate against is a partner-scoped REST API on creditscore.savvymoney.com: a JWT-based Single Sign-On API (authenticate, sign-on, optional browser fingerprint, prolong, log off, and a RelayPost form endpoint) that hands a partner's authenticated member into SavvyMoney without a second credential, plus an External Credit API that returns User Status and User Credit Score data so the partner can render score, score change and monitoring alerts in its own UI. Embeddable iFrame widgets (score widget, offer widget, desktop and mobile dashboards) are published alongside the API, and a documented beta environment runs at creditscoretest.savvymoney.com. Credentials, the full API document and the partner hub are gated behind a partner agreement; no OpenAPI, AsyncAPI, SDK, MCP server or agent card is published publicly.
 
-## The API surface
+**Areas:** Company · Financial Services · Credit Score · Credit Monitoring · Financial Wellness · Banking · Credit Union · Fintech · SSO · Embedded Finance · Lending · Account Opening
 
-Partners integrate against a partner-scoped REST API on `creditscore.savvymoney.com`:
+## SavvyMoney on APIs.io
 
-- **SavvyMoney SSO REST API** — a JWT flow (authenticate, optional browser fingerprint, sign-on,
-  prolong, log off, plus a `RelayPost` form endpoint for iFrame embedding) that hands a partner's
-  already-authenticated member into SavvyMoney without a second credential. Access tokens live 10
-  minutes. SAML 2.0 is documented as an alternative.
-- **SavvyMoney External Credit API** — `User Status` and `User Credit Score`, so a partner can render
-  score, score change and monitoring alerts in its own UI.
-- **Embedded widgets** — hosted, SSO-gated iFrame surfaces: desktop and mobile dashboards, a score
-  widget and an offer widget.
+Everything profiled for SavvyMoney is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/savvymoney/](https://apis.io/providers/savvymoney/)** — or go straight to one of the APIs or properties below.
 
-A full beta estate runs at `creditscoretest.savvymoney.com`.
+### APIs (2)
 
-## What is public, and what is not
+- [SavvyMoney SSO REST API](https://apis.io/apis/savvymoney/savvymoney-sso-rest-api/) — JWT-based Single Sign-On REST API that lets a partner's online or mobile banking platform transfer an authenticated member into SavvyMoney without a second…
+- [SavvyMoney External Credit API](https://apis.io/apis/savvymoney/savvymoney-external-credit-api/) — Partner-facing REST API that returns select credit data for an SSO-identified member so the partner can render it inside its own experience. SavvyMoney's…
 
-Two integration guides — the SSO REST API guide (v2.1, 2022-08-08) and the Mobile Integration Guide
-(v1.8, 2019-09-17) — are served without authentication from the partner-hub CDN, and they are the
-source for most of this profile. The full endpoint reference ("SavvyMoney API Document"), credentials
-and the Partner Hub itself are behind a partner agreement.
+### Published properties
 
-Not published anywhere on the estate: an OpenAPI or any other machine-readable contract, an AsyncAPI
-or webhook surface, a first-party SDK in any package registry, a GitHub organisation, an MCP server,
-an A2A agent card, a `security.txt`, a pricing page, or any rate limit.
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-## Notable findings
+#### Security (4)
 
-- **Errors are decoupled from HTTP status.** An unauthenticated `POST {}` to
-  `/sso/api/rest/signon` returns **HTTP 200** carrying
-  `{"errorMessage":"Missing authCode.","hasErrors":true}`. A client that branches on the status code
-  alone reads a validation failure as a success.
-- **Live status API.** `status.savvymoney.com` is an Atlassian Statuspage with a v2 JSON API and 20
-  named components — including `SSO Service - Auth`, `Credit Service`, `Offers Engine` and a separate
-  `Lending & Deposits - API Service`.
-- **Strong published compliance posture.** SOC 2 Type 2, CSA STAR Level 1 and 2, CSA Trusted Cloud
-  Provider, TRUSTe, GLBA, NIST CSF, CCPA/CPRA, with `security@savvymoney.com` and a Responsible
-  Disclosure practice — but no RFC 9116 `security.txt` to make any of it machine-discoverable.
-- **Documentation currency gap.** The newest dated API change SavvyMoney publishes anywhere is
-  2022-08-08, four years before this pass — though the endpoints it describes were confirmed live.
-- **`api.savvymoney.com` resolves but is unrouted**, answering "Site Not Configured | 404 Not Found"
-  on every path. The real API host is `creditscore.savvymoney.com`.
+Authentication, trust centre, and vulnerability disclosure.
 
-See `apis.yml` for the full artifact index.
+- [Savvymoney Authentication](https://apis.io/security/savvymoney/savvymoney-authentication/)
+- [Savvymoney Domain Security](https://apis.io/security/savvymoney/savvymoney-domain-security/)
+- [Savvymoney Trust Center](https://apis.io/security/savvymoney/savvymoney-trust-center/)
+- [Savvymoney Vulnerability Disclosure](https://apis.io/security/savvymoney/savvymoney-vulnerability-disclosure/)
+
+#### OAuth scopes (1)
+
+The permissions the API asks for.
+
+- [Savvymoney Scopes](https://apis.io/scopes/savvymoney/savvymoney-scopes/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Savvymoney Plans Pricing](https://apis.io/plans/savvymoney/savvymoney-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Savvymoney Rate Limits](https://apis.io/rate-limits/savvymoney/savvymoney-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://www.savvymoney.com/)
+- [Documentation](https://www.savvymoney.com/why-savvymoney/integration-partners/)
+- [Sign up](https://www.savvymoney.com/book-a-demo/)
+- [Support](https://www.savvymoney.com/book-a-demo/)
+- [Blog](https://www.savvymoney.com/category/news/)
+- [Trust centre](https://trust.savvymoney.com/)
+- [Terms of service](https://www.savvymoney.com/terms-of-service/)
+- [Privacy policy](https://www.savvymoney.com/privacy-policy/)
+- [Status](https://status.savvymoney.com/)
+
+## API Evangelist rating
+
+**Kin Score 37.9** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 73.2 |
+| Contract quality | 0.0 |
+| Contract governance | 18.2 |
+| Operational transparency | 42.1 |
+| Developer ergonomics | 45.2 |
+| Access clarity | 50.0 |
+
+**Agent readiness 16.2** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | — |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | served (partial credit) |
+| Idempotency | — |
+| Error Semantics | documented (partial credit) |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | yes |
+| Agentic Commerce | — |
+
+**Regulatory alignment 46.5** — Banking & Open Finance
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/savvymoney/](https://apis.io/providers/savvymoney/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for SavvyMoney: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/savvymoney/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
